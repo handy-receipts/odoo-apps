@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('left-content')]/div[1]" position="before">
+            <div class="o_pos_hr_input_wrapper mb-2 p-3 border rounded bg-view shadow-sm">
+                
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fa fa-paper-plane text-primary me-2"/>
+                    <h6 class="text-primary fw-bold mb-0">Send Purchase Receipt through Handy Receipts</h6>
+                </div>
+                
+                <div class="btn-group w-100 mb-2">
+                    <button class="btn btn-sm py-2" 
+                            t-att-class="{'active btn-primary text-white': state.deliveryType === 'mobile'}"
+                            t-on-click="() => this.state.deliveryType = 'mobile'">
+                        Mobile Number
+                    </button>
+                    <button class="btn btn-sm py-2" 
+                            t-att-class="{'active btn-primary text-white': state.deliveryType === 'pairing_code'}"
+                            t-on-click="() => this.state.deliveryType = 'pairing_code'">
+                        4-Digit Code
+                    </button>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-text bg-white">
+                        <i t-att-class="state.deliveryType === 'mobile' ? 'fa fa-phone' : 'fa fa-key'"/>
+                    </span>
+                    <input type="text" 
+                           class="form-control form-control-lg text-center fw-bold"
+                           t-att-placeholder="state.deliveryType === 'mobile' ? '10-Digit Mobile' : '4-Digit Code'"
+                           t-model="state.deliveryValue"/>
+                </div>
+            </div>
+        </xpath>
+    </t>
+</templates>

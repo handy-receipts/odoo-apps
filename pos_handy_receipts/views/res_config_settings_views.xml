@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 1. Combined Settings View -->
+    <record id="res_config_settings_view_form_inherit_hr" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.hr</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='point_of_sale']" position="inside">
+                <block title="Handy Receipts Integration" id="handy_receipts_settings_block" invisible="not pos_config_id" >
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box" id="hr_api_config">
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">API Configuration</span>
+                                <div class="text-muted">Configure API Key, Endpoint, and CSID</div>
+                                <div class="content-group mt16">
+                                    <div class="row mt8">
+                                        <label for="pos_hr_api_key" string="API Key" class="col-lg-4 o_light_label"/>
+                                        <field name="pos_hr_api_key" password="True"/>
+                                    </div>
+                                    <div class="row mt8">
+                                        <label for="pos_hr_api_url" string="Endpoint" class="col-lg-4 o_light_label"/>
+                                        <field name="pos_hr_api_url"/>
+                                    </div>
+                                    <div class="row mt8">
+                                        <label for="pos_hr_csid" string="CSID" class="col-lg-4 o_light_label"/>
+                                        <field name="pos_hr_csid"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="pos_hr_enable_qr"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="pos_hr_enable_qr" string="Enable Dynamic QR"/>
+                                <div class="text-muted small">Show QR on receipt screen</div>
+                            </div>
+                        </div>
+                        <div class="col-12 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="pos_hr_json_mapping" string="Dynamic JSON Mapping"/>
+                                <field name="pos_hr_json_mapping" widget="text" 
+                                       placeholder="order.partner_id.name:customer, line.qty:quantity"/>
+                                <div class="text-muted small mt-2">
+                                    <b>Prefixes:</b> store, customer, order, line, payment. <br/>
+                                    <b>Format:</b> odoo.path:json_key. Use 'tax_details' virtual field for breakdowns.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 2. Individual POS View (POS > Configuration > Point of Sale) -->
+    <record id="pos_config_view_form_inherit_hr" model="ir.ui.view">
+        <field name="name">pos.config.view.form.inherit.hr</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Using a safer anchor point for Odoo 19 -->
+            <xpath expr="//div[@id='title']" position="after">
+                <h2 class="mt-4">Handy Receipts API Settings</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="row mt8">
+                                <label for="hr_api_key" class="col-lg-4 o_light_label"/>
+                                <field name="hr_api_key" password="True" class="w-auto"/>
+                            </div>
+                            <div class="row mt8">
+                                <label for="hr_api_url" class="col-lg-4 o_light_label"/>
+                                <field name="hr_api_url" class="w-auto"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_pos_pos_form_inherit_hr" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit.hr</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <!-- Place the button in the header -->
+            <xpath expr="//header" position="inside">
+                <button name="action_retry_hr_api" string="Resend Receipt" 
+                        type="object" class="oe_highlight" 
+                        invisible="hr_api_status == 'success' or state == 'draft'"/>
+            </xpath>
+        </field>
+    </record>
+    <!-- 4. Order List View (Outer Table) -->
+    <record id="view_pos_order_tree_inherit_hr" model="ir.ui.view">
+        <field name="name">pos.order.tree.inherit.hr</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+             <xpath expr="/*" position="inside">
+                <button name="action_retry_hr_api" 
+                        type="object" 
+                        string="Resend Receipt" 
+                        class="btn-primary fw-bold"
+                        invisible="hr_api_status == 'success' or state == 'draft'"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('pos-receipt')]" position="inside">
+            <!-- Extremely safe check: ensures props, props.data, and the URL all exist -->
+            <t t-if="props and props.data and props.data.hr_qr_url">
+                <div class="hr-qr-section text-center mt-3 pt-3 border-top" style="border-top: 1px dashed #000 !important;">
+                    <div class="fw-bolder mb-1">Scan for Digital Bill</div>
+                    <img t-att-src="'/report/barcode/?type=QR&amp;value=' + encodeURIComponent(props.data.hr_qr_url)" 
+                         style="width:120px;height:120px;"/>
+                    <div class="small mt-1 text-muted">Powered by Handy Receipts</div>
+                </div>
+            </t>
+        </xpath>
+    </t>
+</templates>

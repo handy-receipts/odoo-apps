@@ -1,0 +1,29 @@
+/* Handy Receipts Delivery widget — Payment Screen.
+ * No !important: selectors below are scoped and specific enough to win
+ * naturally, so the styling still adapts correctly under Odoo's dark
+ * mode instead of forcing fixed colors over it. Only the brand accent
+ * color is hardcoded on purpose (it's Handy Receipts's identity color);
+ * everything else (backgrounds, borders, text) is left to Odoo's own
+ * theme classes (bg-view, text-primary, etc.) already used in the
+ * template so it stays consistent with light/dark mode. */
+
+.o_pos_hr_input_wrapper {
+    border: 2px solid var(--hr-accent-color, #71639e);
+}
+
+.o_pos_hr_input_wrapper .btn-group .btn {
+    transition: all 0.2s ease;
+}
+
+.o_pos_hr_input_wrapper .btn-group .btn.active {
+    background-color: var(--hr-accent-color, #71639e);
+    border-color: var(--hr-accent-color, #71639e);
+    color: #ffffff;
+    font-weight: bold;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.o_pos_hr_input_wrapper .form-control:focus {
+    border-color: var(--hr-accent-color, #71639e);
+    box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
+}
