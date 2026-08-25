@@ -48,7 +48,7 @@ patch(PaymentScreen.prototype, {
         }
 
         if (order) {
-            order.platform_data = {
+            order.hr_data = {
                 type: this.state.deliveryType,
                 input_value: val
             };

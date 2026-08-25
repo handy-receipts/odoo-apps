@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Handy Receipts: WhatsApp & Interactive Digital Receipts for POS',
-    'version': '19.0.1.0.1',
+    'version': '19.0.1.0.2',
     'category': 'Point of Sale',
     'summary': 'Send interactive digital receipts via WhatsApp, SMS, or Privacy QR directly from Odoo POS. Embed coupons, collect NPS feedback, and eliminate thermal paper costs.',
     'description': """
